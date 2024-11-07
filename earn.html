@@ -1,106 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Points</title>
+    <title>Earn EXC</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            background-color: #0e0d0d;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            background-color: navy;
-            color: white;
-            height: 100vh;
-            margin: 0;
+            color: #f0e68c;
+            font-family: Arial, sans-serif;
         }
+        
         h1 {
             margin-top: 20px;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .task {
-            margin: 15px;
-            padding: 15px;
-            border: 2px solid white;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 300px;
-            text-align: center;
-            background-color: #333;
+
+        h1::before, h1::after {
+            content: "💡";
+            font-size: 1.5em;
         }
-        .task button {
-            padding: 10px;
-            font-size: 1em;
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .task-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 300px;
+            height: 60px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 30px;
             cursor: pointer;
-            color: white;
-            background-color: #555;
-            border: none;
-            border-radius: 5px;
-            margin-top: 10px;
+            padding: 10px 20px;
+            transition: box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .task button:disabled {
-            background-color: gray;
-            cursor: not-allowed;
+
+        .task-button span {
+            position: absolute;
+            right: 15px;
+            font-size: 1.2em;
+        }
+
+        .task-button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: left 0.5s;
+        }
+
+        .task-button:hover::after {
+            left: 100%;
+        }
+
+        .red { background-color: #ff4d4d; }
+        .blue { background-color: #1e90ff; }
+        .green { background-color: #32cd32; }
+        .orange { background-color: #ffa500; }
+
+        .checkmark {
+            display: none;
+            font-size: 1.5em;
+            color: #32cd32;
+            animation: fadeIn 0.5s;
+        }
+
+        .completed .checkmark {
+            display: inline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .explosion {
+            display: none;
+            font-size: 1.5em;
+            color: #ffd700;
+            margin-top: 10px;
+            animation: sparkle 1s forwards;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <h1>Earn Points</h1>
-    
-    <!-- مهمة تليجرام -->
-    <div class="task">
-        <p>Task 1: Join our Telegram channel</p>
-        <button id="telegramTask">Complete Task</button>
+    <h1> EARN EXC </h1>
+    <div class="button-container">
+        <div class="task-button red" onclick="completeTask(this, 'ضع اللينك هنا', 'task1')">
+            Watch a video 100exc <span class="checkmark">✔️</span>
+        </div>
+        <div class="task-button blue" onclick="completeTask(this, 'ضع اللينك هنا', 'task2')">
+            Telegram task 100exc <span class="checkmark">✔️</span>
+        </div>
+        <div class="task-button green" onclick="completeTask(this, 'ضع اللينك هنا', 'task3')">
+            Task X 100exc <span class="checkmark">✔️</span>
+        </div>
+        <div class="task-button orange" onclick="completeTask(this, 'ضع اللينك هنا', 'task4')">
+            Games task 100exc <span class="checkmark">✔️</span>
+        </div>
     </div>
-    
-    <!-- مهمة يوتيوب -->
-    <div class="task">
-        <p>Task 2: Subscribe to our YouTube channel</p>
-        <button id="youtubeTask">Complete Task</button>
-    </div>
+    <div class="explosion">✨ I won 100 exc ✨</div>
 
     <script>
-        function completeTask(taskId, buttonId) {
-            const lastCompleted = localStorage.getItem(taskId);
-            const currentTime = Date.now();
-            const taskDuration = 8 * 60 * 60 * 1000; // 8 ساعات بالمللي ثانية
+        const sixHours = 6 * 60 * 60 * 1000; // 6 ساعات بالمللي ثانية
 
-            if (!lastCompleted || (currentTime - lastCompleted >= taskDuration)) {
-                // تحديث وقت إتمام المهمة
-                localStorage.setItem(taskId, currentTime);
-                alert("Task completed! You've earned 100 points.");
-                document.getElementById(buttonId).disabled = true;
+        function completeTask(button, url, taskKey) {
+            const lastCompleted = localStorage.getItem(taskKey);
+            const currentTime = new Date().getTime();
+
+            if (!button.classList.contains('completed') || currentTime - lastCompleted >= sixHours) {
+                window.open(url, '_blank');
+                setTimeout(() => {
+                    button.classList.add('completed');
+                    localStorage.setItem(taskKey, currentTime);
+                    document.querySelector('.explosion').style.display = 'block';
+                    setTimeout(() => {
+                        document.querySelector('.explosion').style.display = 'none';
+                    }, 1000);
+                }, 3000);
             } else {
-                alert("You have already completed this task. Try again later.");
+                alert("Back in 6 hours.");
             }
         }
 
-        // إعداد مهمة تليجرام
-        document.getElementById("telegramTask").addEventListener("click", function() {
-            completeTask("telegramTaskCompleted", "telegramTask");
-        });
+        function checkTaskStatus() {
+            const currentTime = new Date().getTime();
+            document.querySelectorAll('.task-button').forEach((button, index) => {
+                const taskKey = `task${index + 1}`;
+                const lastCompleted = localStorage.getItem(taskKey);
+                if (lastCompleted && currentTime - lastCompleted < sixHours) {
+                    button.classList.add('completed');
+                } else {
+                    button.classList.remove('completed');
+                }
+            });
+        }
 
-        // إعداد مهمة يوتيوب
-        document.getElementById("youtubeTask").addEventListener("click", function() {
-            completeTask("youtubeTaskCompleted", "youtubeTask");
-        });
-
-        // تعطيل الأزرار إذا كانت المهام مكتملة حديثًا
-        window.onload = function() {
-            const taskDuration = 8 * 60 * 60 * 1000; // 8 ساعات بالمللي ثانية
-            const currentTime = Date.now();
-
-            const telegramLastCompleted = localStorage.getItem("telegramTaskCompleted");
-            if (telegramLastCompleted && (currentTime - telegramLastCompleted < taskDuration)) {
-                document.getElementById("telegramTask").disabled = true;
-            }
-
-            const youtubeLastCompleted = localStorage.getItem("youtubeTaskCompleted");
-            if (youtubeLastCompleted && (currentTime - youtubeLastCompleted < taskDuration)) {
-                document.getElementById("youtubeTask").disabled = true;
-            }
-        };
+        checkTaskStatus();
+        setInterval(checkTaskStatus, 60000); // التحقق كل دقيقة
     </script>
 </body>
 </html>
