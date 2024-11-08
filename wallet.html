@@ -3,44 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wallet</title>
+  <title>Connect Wallet</title>
   <style>
-    /* خلفية الصفحة */
     body {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       height: 100vh;
       margin: 0;
-      background-color: #1a2a3a; /* كحلي فاتح */
+      background-color: #98fb98;
       font-family: Arial, sans-serif;
-      overflow: hidden;
+      color: #333;
+      position: relative;
     }
-
-    /* إعدادات النص */
-    .glow-text {
+    h1 {
+      font-size: 2em;
+      margin: 0.5em 0;
+    }
+    #connectButton {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    #walletAddress {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+    #countdown {
+      margin-top: 30px;
       font-size: 1.5em;
-      font-weight: bold;
-      color: #ffffff;
-      background: linear-gradient(90deg, #f39c12, #f1c40f, #e74c3c, #9b59b6, #3498db);
-      background-size: 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 4s linear infinite;
-      text-align: center;
     }
-
-    /* تأثير اللمعة المتحركة */
-    @keyframes glow {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
+    #backButton {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <!-- النص بالداخل مع اللمعة المتحركة -->
-  <div class="glow-text">
-    Soon, your account will be linked with KuCoin, Binance, and other major cryptocurrency platforms. Are you ready?
-  </div>
+  <a id="backButton" href="http://t.me/ELECTRICXEXC_bot/EXC" onclick="window.close();">Back to Game</a>
+
+  <h1>Connect Your Wallet</h1>
+  <button id="connectButton">Connect Wallet</button>
+  <div id="walletAddress">Wallet Address: <span id="walletAddressText">Not Connected</span></div>
+  <div id="countdown">Loading countdown...</div>
+  <p>Time remaining until listing</p>
+
+  <script>
+    // إعداد العداد لـ 60 يومًا
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 60); // بعد 60 يوم من التاريخ الحالي
+
+    function updateCountdown() {
+      const now = new Date();
+      const timeRemaining = targetDate - now;
+
+      if (timeRemaining > 0) {
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").textContent = `${days}:${hours}:${minutes}:${seconds}`;
+      } else {
+        document.getElementById("countdown").textContent = "00:00:00:00";
+      }
+    }
+
+    // تحديث العداد كل ثانية
+    setInterval(updateCountdown, 1000);
+
+    // محاكاة عملية الاتصال بالمحفظة
+    document.getElementById("connectButton").addEventListener("click", function() {
+      if (confirm("Do you want to connect your wallet?")) {
+        const walletAddress = "YourWalletAddress12345"; // عنوان المحفظة الافتراضي
+        document.getElementById("walletAddressText").textContent = walletAddress;
+      }
+    });
+
+    // إغلاق النافذة بعد الضغط على زر "Back to Game"
+    document.getElementById("backButton").addEventListener("click", function(event) {
+      event.preventDefault(); // منع الرابط من إعادة التوجيه الافتراضي
+      window.open('http://t.me/ELECTRICXEXC_bot/EXC', '_self'); // فتح اللعبة في نفس النافذة
+      setTimeout(() => window.close(), 500); // إغلاق النافذة بعد نصف ثانية
+    });
+  </script>
 </body>
 </html>
