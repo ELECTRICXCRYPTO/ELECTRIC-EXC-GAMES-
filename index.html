@@ -1,184 +1,266 @@
-
-  <!-- Project -->
-  <script src="main.js"></script>
-</body>
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EXC Coin Game</title>
+    <title>Click Game</title>
     <style>
-        /* إعدادات التصميم الأساسية */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: navy;
-            color: white;
-            font-family: Arial, sans-serif;
+            justify-content: center;
+            height: 100vh;
             margin: 0;
+            background: linear-gradient(to bottom, #6B8E23, #4F4F4F);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
         }
-        h1 {
-            margin-top: 20px;
-            font-size: 2em;
+
+        #movingText {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
         }
-        .game-container {
-            margin-top: 20px;
-            padding: 20px;
-            border: 2px solid #fff;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 90%;
-            max-width: 500px;
-        }
-        .score, .level {
-            font-size: 1.2em;
+
+        #movingText span {
             display: inline-block;
-            margin: 5px 10px;
+            padding-left: 100%;
+            animation: moveText 10s linear infinite;
         }
-        .click-box {
+
+        @keyframes moveText {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        #score {
+            font-size: 30px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #4F4F4F;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            color: #4CAF50;
+        }
+
+        #earnedTickets {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #4F4F4F;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            color: #4CAF50;
+        }
+
+        #clickArea {
             width: 150px;
             height: 150px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            background-color: #f872;
-            border-radius: 10px;
-            margin-top: 20px;
+            align-items: center;
+            background-color: #4F4F4F;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            font-size: 30px;
+            line-height: 1;
+            color: #FFD700;
             position: relative;
-            overflow: hidden;
         }
-        .emoji {
-            font-size: 1.5em;
+
+        #clickArea:hover {
+            transform: scale(1.05);
         }
-        .falling-emoji {
+
+        .fallingEmoji {
             position: absolute;
-            font-size: 2em;
-            animation: fall 2s linear;
+            top: -50px;
+            font-size: 30px;
+            animation: fall 2s linear forwards;
         }
+
         @keyframes fall {
-            0% { top: -50px; opacity: 1; }
-            100% { top: 150px; opacity: 0; }
+            0% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
         }
-        .buttons {
+
+        .buttonContainer {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 50px;
         }
-        .buttons button {
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 5px;
+
+        .buttonContainer a {
+            padding: 12px 1px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: #6B8E23;
+            color: #FFD700;
             border: none;
-            color: white;
-            background-color: #f444;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 50px;
         }
+
+        .buttonContainer a:hover {
+            background-color: #5D7A1F;
+        }
+
+        .sideEmojis {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .leftEmojis {
+            left: 10%;
+        }
+
+        .rightEmojis {
+            right: 10%;
+        }
+
+        .emoji {
+            font-size: 30px;
+            opacity: 0;
+            animation: randomFade 4s linear infinite;
+        }
+
+        @keyframes randomFade {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .emoji:nth-child(1) { animation-duration: 3s; }
+        .emoji:nth-child(2) { animation-duration: 5s; }
+        .emoji:nth-child(3) { animation-duration: 4s; }
+        .emoji:nth-child(4) { animation-duration: 6s; }
+        .emoji:nth-child(5) { animation-duration: 7s; }
+
     </style>
 </head>
 <body>
-    <h1>💡EXC Coin💡</h1>
 
-    <div class="game-container">
-        <div class="score">EXC <span id="score">0</span></div>
-        <div class="level">TICKETS <span id="level">1</span></div>
-        
-        <!-- مربع النقر -->
-        <div id="click-box" class="click-box">
-            <div id="emojis-container">
-                <span class="emoji">💡</span>
-                <span class="emoji">💡</span>
-                <span class="emoji">💡</span>
-                <span class="emoji">💡</span>
-                <span class="emoji">💡</span>
-                <span class="emoji">💡</span>
-                <span class="emoji">💡</span>
-                <span class="emoji">💡</span>
-                <span class="emoji">💡💡💡💡</span>
-            </div>
-        </div>
-
-        <!-- الأزرار -->
-        <div class="buttons">
-            <button id="earn">EARN</button>
-            <button id="referral">REFERRAL</button>
-            <button id="wallet">Connect Wallet</button>
-        </div>
-    </div>
-
-    <script>
-        let score = 0;
-        let level = 1;
-
-        // زيادة النقاط عند النقر
-        document.getElementById("click-box").addEventListener("click", () => {
-            score++;
-            document.getElementById("score").textContent = score;
-
-            // تحديث المستوى
-            if (score >= level * 1000) {
-                level++;
-                document.getElementById("level").textContent = level;
-            }
-
-            // إضافة الإيموجي المتساقط عند النقر
-            const emoji = document.createElement("span");
-            emoji.textContent = "EXC";
-            emoji.className = "falling-emoji";
-            emoji.style.left = `${Math.random() * 100}%`;
-            document.getElementById("click-box").appendChild(emoji);
-
-            // إزالة الإيموجي بعد سقوطه
-            setTimeout(() => emoji.remove(), 2000);
-        });
-
-        // توجيه زر EARN إلى صفحة earn.html
-        document.getElementById("earn").addEventListener("click", () => {
-            window.location.href = "earn.html";
-        });
-
-        // توجيه زر REFERRAL إلى صفحة referrals.html
-        document.getElementById("referral").addEventListener("click", () => {
-            window.location.href = "referrals.html";
-        });
-
-        // توجيه زر Connect Wallet إلى صفحة wallet.html
-        document.getElementById("wallet").addEventListener("click", () => {
-            window.location.href = "wallet.html";
-        });
-
-        // حفظ النقاط والمستوى عند إغلاق الصفحة
-        window.addEventListener("beforeunload", () => {
-            localStorage.setItem("score", score);
-            localStorage.setItem("level", level);
-        });
-
-        // استرجاع النقاط والمستوى عند العودة
-        window.addEventListener("load", () => {
-            score = parseInt(localStorage.getItem("score") || "0");
-            level = parseInt(localStorage.getItem("level") || "1");
-            document.getElementById("score").textContent = score;
-            document.getElementById("level").textContent = level;
-        });
-    </script>
-</body>  are you ready
-
-</html> <!-- كود العبارة بلمعة متحركة -->
-<div style="text-align: center; margin-top: 20px;">
-  <h2 style="font-family: Arial, sans-serif; font-size: 1.5em; color: #ffffff; background: linear-gradient(90deg, #ffffff, #FFD700, #ffffff);
-              background-size: 200% 100%; background-clip: text; -webkit-background-clip: text; color: transparent;
-              animation: shimmer 3s infinite linear;">
-    Coming soon airdrop 🚀🚀
-  </h2>
+<div id="movingText">
+    <span>💡ELECTRIC XCRYPTO EXC COIN💡</span>
 </div>
 
-<!-- كود تحريك اللمعة -->
-<style>
-  @keyframes shimmer {
-    0% { background-position: 0% 0; }
-    100% { background-position: 200% 0; }
-  }
-</style>
+<div id="score">EXC: 0</div>
+<div id="earnedTickets">Earned Tickets: 1</div>
+
+<div id="clickArea">
+     💡💡💡💡
+     💡💡💡💡
+     💡💡💡💡
+</div>
+
+<div class="buttonContainer">
+    <a href="earn.html">Earn EXC</a>
+    <a href="referrs.html">Referrals</a>
+    <a href="wallet.html">Connect Wallet</a>
+</div>
+
+<div class="sideEmojis leftEmojis">
+    <div class="emoji">🚀</div>
+    <div class="emoji">⚡</div>
+    <div class="emoji">🔜</div>
+    <div class="emoji">⚡</div>
+    <div class="emoji">⚡</div>
+</div>
+
+<div class="sideEmojis rightEmojis">
+    <div class="emoji">⚡</div>
+    <div class="emoji">🚀</div>
+    <div class="emoji">⚡</div>
+    <div class="emoji">🔜</div>
+    <div class="emoji">⚡</div>
+</div>
+
+<script>
+    let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+    let pointsAwarded = false;
+    let earnedTickets = localStorage.getItem('earnedTickets') ? parseInt(localStorage.getItem('earnedTickets')) : 1;
+    let lastClickTime = 0;
+    let suspiciousClicks = 0;
+
+    function updateScoreDisplay() {
+        document.getElementById('score').innerText = `EXC: ${score}`;
+        updateEarnedTickets();
+    }
+
+    function updateEarnedTickets() {
+        earnedTickets = Math.floor(score / 1000) + 1;
+        document.getElementById('earnedTickets').innerText = `Tickets: ${earnedTickets}`;
+        localStorage.setItem('earnedTickets', earnedTickets);
+    }
+
+    function calculatePoints() {
+        if (score < 1000) return 1;
+        else if (score < 5000) return 2;
+        else if (score < 10000) return 3;
+        return 5;
+    }
+
+    function detectAutoClick() {
+        const currentTime = new Date().getTime();
+        if (lastClickTime && (currentTime - lastClickTime < 100)) {
+            suspiciousClicks++;
+        } else {
+            suspiciousClicks = 0;
+        }
+
+        lastClickTime = currentTime;
+
+        if (suspiciousClicks >= 5) {
+            alert("It seems like you're using an auto-clicker. Please stop.");
+            return true;
+        }
+
+        return false;
+    }
+
+    document.getElementById('clickArea').onclick = function() {
+        if (detectAutoClick()) return;
+        const points = calculatePoints();
+        score += points;
+        localStorage.setItem('score', score);
+        updateScoreDisplay();
+    };
+
+    updateScoreDisplay();
+</script>
+
+</body>
+</html>
