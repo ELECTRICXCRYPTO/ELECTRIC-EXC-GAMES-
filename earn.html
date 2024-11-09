@@ -108,11 +108,26 @@
             100% { transform: scale(1); opacity: 0; }
         }
 
-        /* أيقونة النقاط */
         .score-container {
             margin-top: 20px;
             font-size: 1.5em;
             color: #f0e68c;
+        }
+
+        .back-button {
+            background-color: #0077b6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #005a8e;
         }
     </style>
 </head>
@@ -134,8 +149,10 @@
     </div>
     <div class="explosion">✨ I won 100 exc ✨</div>
 
-    <!-- أيقونة النقاط المكتسبة -->
     <div class="score-container" id="scoreDisplay">EXC: 0</div>
+
+    <!-- زر العودة -->
+    <button class="back-button" onclick="goBack()">Back to Play</button>
 
     <script>
         let totalPoints = localStorage.getItem('totalPoints') ? parseInt(localStorage.getItem('totalPoints')) : 0;
@@ -178,7 +195,13 @@
             });
         }
 
-        
+        window.addEventListener("popstate", function() {
+            window.location.href = "http://t.me/ELECTRICXEXC_bot/EXC"; // توجيه المستخدم إلى الرابط عند الضغط على زر العودة
+        });
+
+        function goBack() {
+            window.location.href = "http://t.me/ELECTRICXEXC_bot/EXC"; // رابط الصفحة الرئيسية للعبة
+        }
 
         checkTaskStatus();
         setInterval(checkTaskStatus, 60000); // التحقق كل دقيقة
