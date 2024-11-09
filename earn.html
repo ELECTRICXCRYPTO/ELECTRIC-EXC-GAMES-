@@ -178,10 +178,10 @@
             });
         }
 
-        // توجيه المستخدم إلى http://t.me/ELECTRICXEXC_bot/EXC عند العودة
-        window.onbeforeunload = function() {
-            window.location.href = "http://t.me/ELECTRICXEXC_bot/EXC"; // توجيه إلى الصفحة الرئيسية
-        };
+        // توجيه المستخدم إلى index.html عند الضغط على زر العودة في الهاتف
+        window.addEventListener("popstate", function() {
+            window.location.href = "index.html";
+        });
 
         checkTaskStatus();
         setInterval(checkTaskStatus, 60000); // التحقق كل دقيقة
