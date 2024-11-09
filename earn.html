@@ -1,4 +1,4 @@
-٨<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -13,24 +13,6 @@
             color: #f0e68c;
             font-family: Arial, sans-serif;
             position: relative;
-        }
-
-        /* زر العودة */
-        .back-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #333;
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 1em;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button:hover {
-            background-color: #555;
         }
 
         h1 {
@@ -135,18 +117,15 @@
     </style>
 </head>
 <body>
-    <!-- زر العودة للعب -->
-    <a href="http://t.me/ELECTRICXEXC_bot/EXC" class="back-button" id="backButton">Back to Play</a>
-
     <h1> EARN EXC </h1>
     <div class="button-container">
         <div class="task-button red" onclick="completeTask(this, 'https://youtu.be/Zueyuckj8Ww?si=XN8RbLalmTVoSqem', 'task1')">
             Watch a video 100exc <span class="checkmark">✔️</span>
         </div>
-        <div class="task-button blue" onclick="completeTask(this, 'https://t.me/ELECTRIC_XCRYPTO_ECX', 'task2')">
+        <div class="task-button blue" onclick="completeTask(this, 'https://t.me/ELECTRICXEXC_bot', 'task2')">
             Telegram task 100exc <span class="checkmark">✔️</span>
         </div>
-        <div class="task-button green" onclick="completeTask(this, 'ضع اللينك هنا', 'task3')">
+        <div class="task-button green" onclick="completeTask(this, 'http://example.com/task-x', 'task3')">
             Task X 100exc <span class="checkmark">✔️</span>
         </div>
         <div class="task-button orange" onclick="completeTask(this, 'https://t.me/wcoin_tapbot/wcoin_app?startapp=MTMxNDgzODQ1Mw==', 'task4')">
@@ -169,7 +148,7 @@
             const currentTime = new Date().getTime();
 
             if (!button.classList.contains('completed') || currentTime - lastCompleted >= sixHours) {
-                window.open(url, '_blank');
+                window.open(url, '_blank'); // فتح الرابط في نافذة جديدة
                 setTimeout(() => {
                     button.classList.add('completed');
                     localStorage.setItem(taskKey, currentTime);
@@ -198,10 +177,6 @@
                 }
             });
         }
-
-        document.getElementById('backButton').addEventListener('click', () => {
-            window.close(); // غلق الصفحة
-        });
 
         checkTaskStatus();
         setInterval(checkTaskStatus, 60000); // التحقق كل دقيقة
