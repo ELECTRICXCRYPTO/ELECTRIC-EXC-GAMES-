@@ -1,4 +1,4 @@
-☐ <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,13 +12,19 @@
         <p>Use your referral code:</p>
         <p id="referralCode">YOUR_REFERRAL_CODE</p>
         <p>Referral Count: <span id="referralCount">0</span></p>
-        <a href="index.html" class="action-button">Back to Game</a>
+        <button onclick="closeReferralsPage()" class="action-button">Back to Game</button>
     </div>
     <script>
         let referralCount = localStorage.getItem('referralCount') ? parseInt(localStorage.getItem('referralCount')) : 0;
         document.getElementById('referralCount').textContent = referralCount;
 
-        // You can add logic to generate a static referral code here
+        // Function to close referrals page and navigate back to game
+        function closeReferralsPage() {
+            window.location.href = "index.html";
+            setTimeout(() => {
+                window.close();
+            }, 100);
+        }
     </script>
 </body>
 </html>
