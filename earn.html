@@ -122,7 +122,7 @@
         <div class="task-button red" onclick="completeTask(this, 'https://youtu.be/Zueyuckj8Ww?si=XN8RbLalmTVoSqem', 'task1')">
             Watch a video 100exc <span class="checkmark">✔️</span>
         </div>
-        <div class="task-button blue" onclick="completeTask(this, 'https://t.me/ELECTRICXEXC_bot', 'task2')">
+        <div class="task-button blue" onclick="completeTask(this, 'https://t.me/ELECTRIC_XCRYPTO_ECX', 'task2')">
             Telegram task 100exc <span class="checkmark">✔️</span>
         </div>
         <div class="task-button green" onclick="completeTask(this, 'http://example.com/task-x', 'task3')">
@@ -177,6 +177,11 @@
                 }
             });
         }
+
+        // غلق الصفحة عند الضغط على زر العودة في المتصفح
+        window.onbeforeunload = function() {
+            window.location.href = "http://t.me/ELECTRICXEXC_bot/EXC"; // توجيه المستخدم إلى الرابط عند إغلاق الصفحة
+        };
 
         checkTaskStatus();
         setInterval(checkTaskStatus, 60000); // التحقق كل دقيقة
