@@ -125,11 +125,18 @@
             50% { transform: scale(1.2); opacity: 1; }
             100% { transform: scale(1); opacity: 0; }
         }
+
+        /* أيقونة النقاط */
+        .score-container {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #f0e68c;
+        }
     </style>
 </head>
 <body>
     <!-- زر العودة للعب -->
-    <a href="http://t.me/ELECTRICXEXC_bot/EXC" class="back-button">Back to Play</a>
+    <a href="http://t.me/ELECTRICXEXC_bot/EXC" class="back-button" id="backButton">Back to Play</a>
 
     <h1> EARN EXC </h1>
     <div class="button-container">
@@ -148,7 +155,13 @@
     </div>
     <div class="explosion">✨ I won 100 exc ✨</div>
 
+    <!-- أيقونة النقاط المكتسبة -->
+    <div class="score-container" id="scoreDisplay">EXC: 0</div>
+
     <script>
+        let totalPoints = localStorage.getItem('totalPoints') ? parseInt(localStorage.getItem('totalPoints')) : 0;
+        document.getElementById('scoreDisplay').textContent = `EXC: ${totalPoints}`;
+
         const sixHours = 6 * 60 * 60 * 1000; // 6 ساعات بالمللي ثانية
 
         function completeTask(button, url, taskKey) {
@@ -160,6 +173,9 @@
                 setTimeout(() => {
                     button.classList.add('completed');
                     localStorage.setItem(taskKey, currentTime);
+                    totalPoints += 100;
+                    localStorage.setItem('totalPoints', totalPoints);
+                    document.getElementById('scoreDisplay').textContent = `EXC: ${totalPoints}`;
                     document.querySelector('.explosion').style.display = 'block';
                     setTimeout(() => {
                         document.querySelector('.explosion').style.display = 'none';
@@ -182,6 +198,10 @@
                 }
             });
         }
+
+        document.getElementById('backButton').addEventListener('click', () => {
+            window.close(); // غلق الصفحة
+        });
 
         checkTaskStatus();
         setInterval(checkTaskStatus, 60000); // التحقق كل دقيقة
