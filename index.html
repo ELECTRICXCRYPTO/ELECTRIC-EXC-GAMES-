@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>HTML</title>
-  
-  <!-- HTML -->
-  
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <p>💡EXC💡TSDT💡</p>
-  <!-- Project -->
-  <script src="main.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Game</title>
@@ -33,7 +12,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(to bottom, #6B8E23, #4F4F4F);
+            background: linear-gradient(to bottom, #0527A0, #0527A0);
             font-family: Arial, sans-serif;
             overflow: hidden;
             position: relative;
@@ -46,7 +25,7 @@
             text-align: center;
             font-size: 24px;
             font-weight: bold;
-            color: #ffffff;
+            color: #FFD700;
             white-space: nowrap;
             overflow: hidden;
         }
@@ -70,20 +49,20 @@
             font-size: 30px;
             margin-bottom: 10px;
             padding: 10px;
-            background-color: #4F4F4F;
-            border: 2px solid #4CAF50;
+            background-color: #2A52BE;
+            border: 2px solid #2A52BE;
             border-radius: 10px;
-            color: #4CAF50;
+            color: #FFD700;
         }
 
         #earnedTickets {
             font-size: 20px;
             margin-bottom: 20px;
             padding: 10px;
-            background-color: #4F4F4F;
-            border: 2px solid #4CAF50;
+            background-color: #2A52BE;
+            border: 2px solid #2A52BE;
             border-radius: 10px;
-            color: #4CAF50;
+            color: #FFD700;
         }
 
         #clickArea {
@@ -92,14 +71,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #4F4F4F;
+            background-color: #2A52BE;
             border-radius: 15px;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s;
             font-size: 30px;
             line-height: 1;
-            color: #FFD700;
+            color: #0527A0;
             position: relative;
         }
 
@@ -135,7 +114,7 @@
             font-size: 18px;
             font-weight: bold;
             text-transform: uppercase;
-            background-color: #6B8E23;
+            background-color: #2A52BE;
             color: #FFD700;
             border: none;
             border-radius: 10px;
@@ -209,7 +188,7 @@
 
 <div class="buttonContainer">
     <a href="earn.html">Earn EXC</a>
-    <a href="referrals.html">Referrals</a> <!-- تحديث الرابط إلى referrals.html -->
+    <a href="referrs.html">Referrals</a>
     <a href="wallet.html">Connect Wallet</a>
 </div>
 
@@ -278,10 +257,22 @@
         score += points;
         localStorage.setItem('score', score);
         updateScoreDisplay();
+
+        // إضافة الإيموجي المتساقط عند النقرة
+        const fallingEmoji = document.createElement('div');
+        fallingEmoji.classList.add('fallingEmoji');
+        fallingEmoji.innerText = '💡';
+        fallingEmoji.style.left = Math.random() * 100 + 'vw';
+        document.body.appendChild(fallingEmoji);
+
+        // إزالة الإيموجي بعد انتهاء الحركة
+        fallingEmoji.addEventListener('animationend', () => {
+            fallingEmoji.remove();
+        });
     };
 
     updateScoreDisplay();
 </script>
 
 </body>
-    </html>
+</html>
