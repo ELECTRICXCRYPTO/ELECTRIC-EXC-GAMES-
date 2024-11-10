@@ -1,30 +1,118 @@
 <!DOCTYPE html>
+<html>
+
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+ 
+EXC COIN 
+
+
+
+</body>
+
+</html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Referrals</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Referral Page</title>
+    <style>
+        body {
+            background-color: #007BFF; /* Blue background */
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: auto;
+            max-width: 400px;
+        }
+        h1 {
+            color: cyan; /* Sky blue */
+        }
+        .button {
+            background-color: cyan; /* Sky blue */
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .score, .referrals {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .back-button {
+            margin-top: 20px;
+            text-decoration: none;
+            color: cyan;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Referrals</h1>
-        <p>Use your referral code:</p>
-        <p id="referralCode">YOUR_REFERRAL_CODE</p>
-        <p>Referral Count: <span id="referralCount">0</span></p>
-        <button onclick="closeReferralsPage()" class="action-button">Back to Game</button>
+        <h1>Referral Page</h1>
+        <div class="score" id="score">EXC: 0</div>
+        <div class="referrals" id="referrals">Referrals: 0</div>
+        <div>
+            <h2>Referral Code: <span id="referralCode">1000</span></h2>
+            <button class="button" id="shareButton">Share on Telegram</button>
+        </div>
+        <a href="http://t.me/ELECTRICXEXC_bot/EXC" class="back-button">Back to Play</a>
     </div>
-    <script>
-        let referralCount = localStorage.getItem('referralCount') ? parseInt(localStorage.getItem('referralCount')) : 0;
-        document.getElementById('referralCount').textContent = referralCount;
 
-        // Function to close referrals page and navigate back to game
-        function closeReferralsPage() {
-            window.location.href = "index.html";
-            setTimeout(() => {
-                window.close();
-            }, 100);
+    <script>
+        // Retrieve or initialize points and referral code
+        let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
+        let referralCount = parseInt(localStorage.getItem('referralCount')) || 0; // Initialize referral count
+        let referralCode = localStorage.getItem('referralCode');
+        let currentCode = 1000;
+
+        if (!referralCode) {
+            // Generate a unique referral code for the player
+            referralCode = currentCode + Math.floor(Math.random() * 10000000); // Generate a random code
+            localStorage.setItem('referralCode', referralCode);
         }
+
+        document.getElementById('referralCode').innerText = referralCode;
+        document.getElementById('score').innerText = 'EXC: ' + totalPoints;
+        document.getElementById('referrals').innerText = 'Referrals: ' + referralCount; // Display referral count
+
+        document.getElementById('shareButton').onclick = function() {
+            const telegramLink = `http://t.me/share/url?url=${encodeURIComponent('http://t.me/ELECTRICXEXC_bot/EXC?ref=' + referralCode)}&text=${encodeURIComponent('Use my referral code: ' + referralCode)}`;
+            window.open(telegramLink, '_blank');
+        };
+
+        // Function to handle new player joining
+        function playerJoined() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+
+            if (refCode) {
+                // Add points to both the referrer and the new player
+                totalPoints += 300; // Points for the new player
+                referralCount++; // Increment referral count
+                localStorage.setItem('totalPoints', totalPoints); // Save points
+                localStorage.setItem('referralCount', referralCount); // Save referral count
+                alert('Congratulations! You and the referrer each get 300 points!');
+
+                // Update the score and referral count display
+                document.getElementById('score').innerText = 'EXC: ' + totalPoints;
+                document.getElementById('referrals').innerText = 'Referrals: ' + referralCount;
+            }
+        }
+
+        // Call this function when the new player opens the game with the referral link
+        playerJoined();
     </script>
 </body>
 </html>
