@@ -13,29 +13,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>HTML</title>
-  
-  <!-- HTML -->
-  
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <p>💡EXC WALLET💡</p>
-  <!-- Project -->
-  <script src="main.js"></script>
-</body>
-</html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Con</title>
+  <title>Connect Your Wallet</title>
   <style>
     body {
       display: flex;
@@ -92,32 +71,39 @@
   
   <div id="walletAddress">Wallet Address: <span id="walletAddressText">soon Connected</span></div>
   <div id="countdown">Loading countdown...</div>
-  <p>Time remaining until listing</p>
+  <p id="countdownMessage"></p>
 
   <script>
-    // إعداد العداد لـ 60 يومًا
-    let targetDate = localStorage.getItem("targetDate");
-    if (!targetDate) {
-      targetDate = new Date();
-      targetDate.setDate(targetDate.getDate() + 60); // بعد 60 يوم من التاريخ الحالي
-      localStorage.setItem("targetDate", targetDate);
-    } else {
-      targetDate = new Date(targetDate);
-    }
+    const startDate = new Date("2024-11-09T00:00:00"); // تاريخ البداية
+    const endDate = new Date("2025-01-09T00:00:00"); // تاريخ النهاية
 
     function updateCountdown() {
       const now = new Date();
-      const timeRemaining = targetDate - now;
 
-      if (timeRemaining > 0) {
+      if (now < startDate) {
+        // إذا كان التاريخ الحالي قبل تاريخ البداية
+        const timeUntilStart = startDate - now;
+        const days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("countdownMessage").textContent = "Time remaining until countdown starts";
+      } else if (now >= startDate && now < endDate) {
+        // إذا كان التاريخ الحالي ضمن فترة العد التنازلي
+        const timeRemaining = endDate - now;
         const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-        document.getElementById("countdown").textContent = `${days}:${hours}:${minutes}:${seconds}`;
+        document.getElementById("countdown").textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("countdownMessage").textContent = "Time remaining until listing ends";
       } else {
+        // إذا انتهت فترة العد التنازلي
         document.getElementById("countdown").textContent = "00:00:00:00";
+        document.getElementById("countdownMessage").textContent = "Countdown finished!";
       }
     }
 
