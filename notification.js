@@ -2,6 +2,8 @@
 const notificationMessage = `Don't forget to participate in communication tasks to increase your profits 💡💡💡💡
 Click on the daily task on the home page to 💲win a dollar.
 Clicking a lot will help you increase your balance 🎲
+YOUR EXC COMMUNITY SUBSCRIPTION SUPPORTS THE COMMUNITY
+https://t.me/ELECTRIC_XCRYPTO_ECX
 
 For assistance, visit our bot: http://t.me/ELECTRICXEXC_bot`;
 
