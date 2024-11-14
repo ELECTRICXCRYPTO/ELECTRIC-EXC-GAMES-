@@ -1,4 +1,37 @@
 <!DOCTYPE html>
+<html>
+
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+ 
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HTML</title>
+  
+  <!-- HTML -->
+  
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <p>
+    
+  </p>
+  <!-- Project -->
+  <script src="main.js"></script>
+</body><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -197,7 +230,7 @@
     <div class="emoji">⚡</div>
     <div class="emoji">🔜</div>
     <div class="emoji">⚡</div>
-    <div class="emoji">⚡</div>
+    <div class="emoji"></div>
 </div>
 
 <div class="sideEmojis rightEmojis">
@@ -205,7 +238,7 @@
     <div class="emoji">🚀</div>
     <div class="emoji">⚡</div>
     <div class="emoji">🔜</div>
-    <div class="emoji">⚡</div>
+    <div class="emoji"></div>
 </div>
 
 <script>
@@ -275,6 +308,97 @@
 </script>
 
 </body>
-</html>
+</html> 
+<!DOCTYPE html>
+<html lang="en">
+<head>💡
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reward</title>
+    <style>
+        /* تنسيق الزر والأيقونة */
+        #buttonContainer {
+            display: flex;
+            align-items: center;
+            gap: 0.5cm;
+        }
 
-<script src="notification.js"></script>
+        #rewardBtn {
+            width: 4cm;
+            height: 2cm;
+            background-color: lightgreen;
+            color: darkblue;
+            font-weight: bold;
+            font-size: 25px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #icon {
+            width: 4cm;
+            height: 2cm;
+            background-color: lightgreen;
+            color: darkblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="buttonContainer">
+        <button id="rewardBtn">Get Reward</button>
+        <div id="icon">0.00 USDT</div>
+    </div>
+
+    <script>
+        const rewardBtn = document.getElementById("rewardBtn");
+        const icon = document.getElementById("icon");
+
+        // تحميل المكافأة الإجمالية من التخزين المحلي أو ضبطها إلى صفر
+        let totalReward = parseFloat(localStorage.getItem("totalReward")) || 0;
+        icon.textContent = `${totalReward.toFixed(2)} USDT`; // عرض المكافأة الإجمالية
+
+        // إعداد المكافأة العشوائية
+        function generateReward() {
+            const rand = Math.random();
+            return rand < 0.7 ? (Math.random() * 0.10 + 0.05).toFixed(2) : (Math.random() * 0.55 + 0.15).toFixed(2);
+        }
+
+        // التحقق من إمكانية الحصول على المكافأة اليومية
+        function canClaimReward() {
+            const lastClaimed = localStorage.getItem("lastClaimed");
+            const now = new Date();
+            now.setUTCHours(1, 0, 0, 0);
+
+            // التحقق من مرور 24 ساعة منذ آخر مكافأة
+            return !lastClaimed || (now - new Date(lastClaimed)) >= 24 * 60 * 60 * 1000;
+        }
+
+        // وظيفة المطالبة بالمكافأة
+        function claimReward() {
+            if (!canClaimReward()) {
+                alert("BACK tomorrow 💡"); // تنبيه بالعودة لاحقاً
+                return;
+            }
+
+            const reward = parseFloat(generateReward());
+            totalReward += reward; // إضافة المكافأة العشوائية إلى الإجمالي
+            localStorage.setItem("totalReward", totalReward); // حفظ الإجمالي في التخزين المحلي
+            localStorage.setItem("lastClaimed", new Date().toISOString()); // حفظ وقت آخر مطالبة
+
+            // تحديث الأيقونة بقيمة الإجمالي الجديد
+            icon.textContent = `${totalReward.toFixed(2)} USDT`; 
+            alert(`You earned ${reward} USDT!`); // عرض المكافأة المكتسبة
+        }
+
+        // ربط وظيفة المطالبة بالزر
+        rewardBtn.addEventListener("click", claimReward);
+    </script>
+
+</body>
+</html>
