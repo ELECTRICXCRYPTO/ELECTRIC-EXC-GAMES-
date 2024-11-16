@@ -1,33 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>HTML</title>
-  
-  <!-- HTML -->
-  
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>EXC COIN 
-  <p></p>
-  <!-- Project -->
-  <script src="main.js"></script>
-</body>
-</html><!DOCTYPE html>
 <html>
 
 <head>
  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
-<body> 
-
+<body>
+ 💡EXC COIN 💡
 </body>
 
 </html><!DOCTYPE html>
@@ -93,7 +72,6 @@
             font-size: 24px;
         }
         .btn {
-            margin-top: 20px;
             padding: 10px 20px;
             background-color: #333;
             color: #fff;
@@ -105,6 +83,9 @@
         .btn:disabled {
             background-color: #aaa;
             cursor: not-allowed;
+        }
+        .back-btn {
+            background-color: #ff6347; /* Tomato color */
         }
         .timer {
             font-size: 20px;
@@ -122,6 +103,12 @@
             font-size: 18px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -138,7 +125,10 @@
         </div>
         <div class="roulette-center">💡</div>
     </div>
-    <button class="btn" id="spinBtn" onclick="spin()">Spin!</button>
+    <div class="btn-container">
+        <button class="btn" id="spinBtn" onclick="spin()">Spin!</button>
+        <button class="btn back-btn" onclick="redirectToPlay()">Back to Play</button>
+    </div>
     <div class="timer" id="timer">Time remaining: 60:00</div>
     <div class="earnings" id="earnings">Earnings: 0 EXC</div>
 
@@ -148,7 +138,6 @@
         const timerElement = document.getElementById('timer');
         const earningsElement = document.getElementById('earnings');
 
-        // Load saved earnings and timer from localStorage
         let totalEarnings = parseInt(localStorage.getItem('earnings')) || 0;
         const endTime = parseInt(localStorage.getItem('endTime')) || null;
         updateEarningsDisplay();
@@ -222,6 +211,14 @@
                 }
             }, 1000);
         }
+
+        function redirectToPlay() {
+            const playUrl = "http://t.me/ELECTRICXEXC_bot/EXC";
+            window.location.href = playUrl; // Redirect to the link
+            setTimeout(() => {
+                window.close(); // Close the page after redirection
+            }, 1000);
+        }
     </script>
 </body>
-</html> 
+  </html>
