@@ -1,129 +1,64 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ar">
 <head>
- <meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
-
-<body>
- 
-</body>
-
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connect Your Wallet</title>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #98fb98;
-      font-family: Arial, sans-serif;
-      color: #333;
-      position: relative;
-    }
-    h1 {
-      font-size: 2em;
-      margin: 0.5em 0;
-    }
-    #connectButton {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-    #walletAddress {
-      margin-top: 20px;
-      font-size: 1.2em;
-    }
-    #countdown {
-      margin-top: 30px;
-      font-size: 1.5em;
-    }
-    #backButton {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      padding: 10px 15px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1em;
-      text-decoration: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ربط المحفظة - EXC COIN</title>
 </head>
 <body>
-  <a id="backButton" href="http://t.me/ELECTRICXEXC_bot/EXC" onclick="window.close();">Back to Game</a>
+    <h1 style="text-align: center;">ربط المحفظة - لعبة EXC COIN</h1>
 
-  <h1>Connect Your Wallet</h1>
-  
-  <div id="walletAddress">Wallet Address: <span id="walletAddressText">soon Connected</span></div>
-  <div id="countdown">Loading countdown...</div>
-  <p id="countdownMessage"></p>
+    <!-- ويدجيت تسجيل الدخول الخاص بـ Telegram -->
+    <div style="text-align: center; margin-top: 20px;">
+        <script async src="https://telegram.org/js/telegram-widget.js?7"
+                data-telegram-login="ELECTRIC_XCRYPTO_"  <!-- استبدل اسم المستخدم ببوتك -->
+                data-size="large"
+                data-radius="10"
+                data-auth-url="javascript:handleAuth(user)"
+                data-request-access="write">
+        </script>
+    </div>
 
-  <script>
-    const startDate = new Date("2024-11-09T00:00:00"); // تاريخ البداية
-    const endDate = new Date("2025-01-09T00:00:00"); // تاريخ النهاية
+    <!-- منطقة لعرض معلومات المستخدم -->
+    <div id="user-info" style="text-align: center; margin-top: 20px;">
+        <!-- سيتم عرض بيانات المحفظة هنا -->
+    </div>
 
-    function updateCountdown() {
-      const now = new Date();
+    <script>
+        // وظيفة للتعامل مع بيانات تسجيل الدخول
+        function handleAuth(user) {
+            const userInfo = `
+                <h3>تم الاتصال بنجاح!</h3>
+                <p><strong>اسم المستخدم:</strong> ${user.first_name}</p>
+                <p><strong>معرف المحفظة:</strong> ${user.id}</p>
+                <a href="http://t.me/electricxexc_bot/exc" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 20px; border-radius: 5px;">اذهب إلى اللعبة</a>
+            `;
+            document.getElementById('user-info').innerHTML = userInfo;
 
-      if (now < startDate) {
-        // إذا كان التاريخ الحالي قبل تاريخ البداية
-        const timeUntilStart = startDate - now;
-        const days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
+            // حفظ معرف المستخدم في LocalStorage
+            localStorage.setItem('walletAddress', user.id);
+        }
 
-        document.getElementById("countdown").textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        document.getElementById("countdownMessage").textContent = "Time remaining until countdown starts";
-      } else if (now >= startDate && now < endDate) {
-        // إذا كان التاريخ الحالي ضمن فترة العد التنازلي
-        const timeRemaining = endDate - now;
-        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+        // عرض عنوان المحفظة المخزن (إذا كان موجودًا)
+        window.onload = function () {
+            const walletAddress = localStorage.getItem('walletAddress');
+            if (walletAddress) {
+                document.getElementById('user-info').innerHTML = `
+                    <h3>متصل بعنوان المحفظة:</h3>
+                    <p>${walletAddress}</p>
+                    <a href="http://t.me/electricxexc_bot/exc" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 20px; border-radius: 5px;">اذهب إلى اللعبة</a>
+                    <br><br>
+                    <button onclick="logoutWallet()" style="padding: 10px 20px; background-color: red; color: white; border: none; border-radius: 5px;">تغيير المحفظة</button>
+                `;
+            }
+        };
 
-        document.getElementById("countdown").textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        document.getElementById("countdownMessage").textContent = "Time remaining until listing ends";
-      } else {
-        // إذا انتهت فترة العد التنازلي
-        document.getElementById("countdown").textContent = "00:00:00:00";
-        document.getElementById("countdownMessage").textContent = "Countdown finished!";
-      }
-    }
-
-    // تحديث العداد كل ثانية
-    setInterval(updateCountdown, 1000);
-
-    // محاكاة عملية الاتصال بالمحفظة
-    document.getElementById("connectButton").addEventListener("click", function() {
-      if (confirm("Do you want to connect your wallet?")) {
-        const walletAddress = "YourWalletAddress"; // عنوان المحفظة الافتراضي
-        document.getElementById("walletAddressText").textContent = walletAddress;
-      }
-    });
-
-    // إغلاق النافذة بعد الضغط على زر "Back to Game"
-    document.getElementById("backButton").addEventListener("click", function(event) {
-      event.preventDefault(); // منع الرابط من إعادة التوجيه الافتراضي
-      window.open('http://t.me/ELECTRICXEXC_bot/EXC', '_self'); // فتح اللعبة في نفس النافذة
-      setTimeout(() => window.close(), 500); // إغلاق النافذة بعد نصف ثانية
-    });
-  </script>
+        // وظيفة لتسجيل الخروج
+        function logoutWallet() {
+            localStorage.removeItem('walletAddress');
+            alert("تم فصل المحفظة بنجاح!");
+            location.reload();
+        }
+    </script>
 </body>
 </html>
