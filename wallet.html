@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<html>
-
-<head>
- <meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
-
-<body>
- 💡EXC COIN 💡
-</body>
-
-</html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -216,9 +205,13 @@
             const playUrl = "http://t.me/ELECTRICXEXC_bot/EXC";
             window.location.href = playUrl; // Redirect to the link
             setTimeout(() => {
-                window.close(); // Close the page after redirection
+                try {
+                    window.close(); // Try to close the page
+                } catch (e) {
+                    alert("Please close this page manually if it does not close automatically.");
+                }
             }, 1000);
         }
     </script>
 </body>
-  </html>
+</html>
