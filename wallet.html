@@ -1,64 +1,411 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
+
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body> EXC COIN 
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ربط المحفظة - EXC COIN</title>
+    <title>Roulette Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #87CEEB; /* Light blue background */
+        }
+        .roulette-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+        .roulette-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #333;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(0deg);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background-color: transparent;
+            transform-origin: 100% 100%;
+            clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+        }
+        .segment:nth-child(1) { transform: rotate(0deg); background-color: #ffcccc; }
+        .segment:nth-child(2) { transform: rotate(51.4deg); background-color: #ccffcc; }
+        .segment:nth-child(3) { transform: rotate(102.8deg); background-color: #ccccff; }
+        .segment:nth-child(4) { transform: rotate(154.2deg); background-color: #ffffcc; }
+        .segment:nth-child(5) { transform: rotate(205.6deg); background-color: #ffccff; }
+        .segment:nth-child(6) { transform: rotate(257deg); background-color: #ccffff; }
+        .segment:nth-child(7) { transform: rotate(308.4deg); background-color: #ffddcc; }
+        .roulette-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin: -25px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            line-height: 50px;
+            font-size: 24px;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .timer {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .earnings {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #90ee90; /* Light green */
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <h1 style="text-align: center;">ربط المحفظة - لعبة EXC COIN</h1>
-
-    <!-- ويدجيت تسجيل الدخول الخاص بـ Telegram -->
-    <div style="text-align: center; margin-top: 20px;">
-        <script async src="https://telegram.org/js/telegram-widget.js?7"
-                data-telegram-login="ELECTRIC_XCRYPTO_"  <!-- استبدل اسم المستخدم ببوتك -->
-                data-size="large"
-                data-radius="10"
-                data-auth-url="javascript:handleAuth(user)"
-                data-request-access="write">
-        </script>
+    <h1>CONNECT WALLET : - SOON </h1>
+    <div class="roulette-container">
+        <div class="roulette-wheel" id="wheel">
+            <div class="segment">50 EXC</div>
+            <div class="segment">100 EXC</div>
+            <div class="segment">150 EXC</div>
+            <div class="segment">200 EXC</div>
+            <div class="segment">250 EXC</div>
+            <div class="segment">300 EXC</div>
+            <div class="segment">1000 EXC</div>
+        </div>
+        <div class="roulette-center">💡</div>
     </div>
-
-    <!-- منطقة لعرض معلومات المستخدم -->
-    <div id="user-info" style="text-align: center; margin-top: 20px;">
-        <!-- سيتم عرض بيانات المحفظة هنا -->
-    </div>
+    <button class="btn" id="spinBtn" onclick="spin()">Spin!</button>
+    <div class="timer" id="timer">Time remaining: 60:00</div>
+    <div class="earnings" id="earnings">Earnings: 0 EXC</div>
 
     <script>
-        // وظيفة للتعامل مع بيانات تسجيل الدخول
-        function handleAuth(user) {
-            const userInfo = `
-                <h3>تم الاتصال بنجاح!</h3>
-                <p><strong>اسم المستخدم:</strong> ${user.first_name}</p>
-                <p><strong>معرف المحفظة:</strong> ${user.id}</p>
-                <a href="http://t.me/electricxexc_bot/exc" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 20px; border-radius: 5px;">اذهب إلى اللعبة</a>
-            `;
-            document.getElementById('user-info').innerHTML = userInfo;
+        const wheel = document.getElementById('wheel');
+        const spinBtn = document.getElementById('spinBtn');
+        const timerElement = document.getElementById('timer');
+        const earningsElement = document.getElementById('earnings');
 
-            // حفظ معرف المستخدم في LocalStorage
-            localStorage.setItem('walletAddress', user.id);
+        // Load saved earnings and timer from localStorage
+        let totalEarnings = parseInt(localStorage.getItem('earnings')) || 0;
+        const endTime = parseInt(localStorage.getItem('endTime')) || null;
+        updateEarningsDisplay();
+
+        function updateEarningsDisplay() {
+            earningsElement.textContent = `Earnings: ${totalEarnings} EXC`;
         }
 
-        // عرض عنوان المحفظة المخزن (إذا كان موجودًا)
-        window.onload = function () {
-            const walletAddress = localStorage.getItem('walletAddress');
-            if (walletAddress) {
-                document.getElementById('user-info').innerHTML = `
-                    <h3>متصل بعنوان المحفظة:</h3>
-                    <p>${walletAddress}</p>
-                    <a href="http://t.me/electricxexc_bot/exc" style="text-decoration: none; color: white; background-color: #007bff; padding: 10px 20px; border-radius: 5px;">اذهب إلى اللعبة</a>
-                    <br><br>
-                    <button onclick="logoutWallet()" style="padding: 10px 20px; background-color: red; color: white; border: none; border-radius: 5px;">تغيير المحفظة</button>
-                `;
+        function calculateTimeRemaining() {
+            const now = Date.now();
+            if (endTime && endTime > now) {
+                return Math.floor((endTime - now) / 1000);
             }
-        };
+            return 0;
+        }
 
-        // وظيفة لتسجيل الخروج
-        function logoutWallet() {
-            localStorage.removeItem('walletAddress');
-            alert("تم فصل المحفظة بنجاح!");
-            location.reload();
+        let remainingTime = calculateTimeRemaining();
+        if (remainingTime > 0) {
+            spinBtn.disabled = true;
+            startCountdown(remainingTime);
+        } else {
+            timerElement.textContent = "You can spin now!";
+        }
+
+        function spin() {
+            const randomChance = Math.random() * 100;
+            let prizeIndex;
+
+            if (randomChance <= 70) {
+                prizeIndex = Math.floor(Math.random() * 4); // Less than 250
+            } else {
+                prizeIndex = Math.floor(Math.random() * 3) + 4; // 250 or more
+            }
+
+            const prizes = [50, 100, 150, 200, 250, 300, 1000];
+            const prize = prizes[prizeIndex];
+
+            const degrees = 3600 + (360 / 7) * prizeIndex; // Spin the wheel
+            wheel.style.transform = `rotate(${degrees}deg)`;
+
+            setTimeout(() => {
+                addEarnings(prize);
+                startCountdown(3600); // Start a 60-minute countdown
+            }, 4000);
+        }
+
+        function addEarnings(amount) {
+            totalEarnings += amount;
+            localStorage.setItem('earnings', totalEarnings); // Save earnings
+            updateEarningsDisplay();
+        }
+
+        function startCountdown(duration) {
+            const now = Date.now();
+            const newEndTime = now + duration * 1000;
+            localStorage.setItem('endTime', newEndTime); // Save end time
+            let countdownTimer = duration;
+
+            spinBtn.disabled = true;
+            const interval = setInterval(() => {
+                countdownTimer--;
+                const minutes = Math.floor(countdownTimer / 60);
+                const seconds = countdownTimer % 60;
+                timerElement.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if (countdownTimer <= 0) {
+                    clearInterval(interval);
+                    spinBtn.disabled = false;
+                    timerElement.textContent = "You can spin now!";
+                    localStorage.removeItem('endTime'); // Clear the end time
+                }
+            }, 1000);
         }
     </script>
 </body>
-</html>
+</html>  <!DOCTYPE html>
+<html>
+
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body> EXC COIN 
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #87CEEB; /* Light blue background */
+        }
+        .roulette-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+        .roulette-wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #333;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(0deg);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background-color: transparent;
+            transform-origin: 100% 100%;
+            clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+        }
+        .segment:nth-child(1) { transform: rotate(0deg); background-color: #ffcccc; }
+        .segment:nth-child(2) { transform: rotate(51.4deg); background-color: #ccffcc; }
+        .segment:nth-child(3) { transform: rotate(102.8deg); background-color: #ccccff; }
+        .segment:nth-child(4) { transform: rotate(154.2deg); background-color: #ffffcc; }
+        .segment:nth-child(5) { transform: rotate(205.6deg); background-color: #ffccff; }
+        .segment:nth-child(6) { transform: rotate(257deg); background-color: #ccffff; }
+        .segment:nth-child(7) { transform: rotate(308.4deg); background-color: #ffddcc; }
+        .roulette-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin: -25px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            line-height: 50px;
+            font-size: 24px;
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .timer {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        .earnings {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #90ee90; /* Light green */
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>CONNECT WALLET : - SOON </h1>
+    <div class="roulette-container">
+        <div class="roulette-wheel" id="wheel">
+            <div class="segment">50 EXC</div>
+            <div class="segment">100 EXC</div>
+            <div class="segment">150 EXC</div>
+            <div class="segment">200 EXC</div>
+            <div class="segment">250 EXC</div>
+            <div class="segment">300 EXC</div>
+            <div class="segment">1000 EXC</div>
+        </div>
+        <div class="roulette-center">💡</div>
+    </div>
+    <button class="btn" id="spinBtn" onclick="spin()">Spin!</button>
+    <div class="timer" id="timer">Time remaining: 60:00</div>
+    <div class="earnings" id="earnings">Earnings: 0 EXC</div>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const spinBtn = document.getElementById('spinBtn');
+        const timerElement = document.getElementById('timer');
+        const earningsElement = document.getElementById('earnings');
+
+        // Load saved earnings and timer from localStorage
+        let totalEarnings = parseInt(localStorage.getItem('earnings')) || 0;
+        const endTime = parseInt(localStorage.getItem('endTime')) || null;
+        updateEarningsDisplay();
+
+        function updateEarningsDisplay() {
+            earningsElement.textContent = `Earnings: ${totalEarnings} EXC`;
+        }
+
+        function calculateTimeRemaining() {
+            const now = Date.now();
+            if (endTime && endTime > now) {
+                return Math.floor((endTime - now) / 1000);
+            }
+            return 0;
+        }
+
+        let remainingTime = calculateTimeRemaining();
+        if (remainingTime > 0) {
+            spinBtn.disabled = true;
+            startCountdown(remainingTime);
+        } else {
+            timerElement.textContent = "You can spin now!";
+        }
+
+        function spin() {
+            const randomChance = Math.random() * 100;
+            let prizeIndex;
+
+            if (randomChance <= 70) {
+                prizeIndex = Math.floor(Math.random() * 4); // Less than 250
+            } else {
+                prizeIndex = Math.floor(Math.random() * 3) + 4; // 250 or more
+            }
+
+            const prizes = [50, 100, 150, 200, 250, 300, 1000];
+            const prize = prizes[prizeIndex];
+
+            const degrees = 3600 + (360 / 7) * prizeIndex; // Spin the wheel
+            wheel.style.transform = `rotate(${degrees}deg)`;
+
+            setTimeout(() => {
+                addEarnings(prize);
+                startCountdown(3600); // Start a 60-minute countdown
+            }, 4000);
+        }
+
+        function addEarnings(amount) {
+            totalEarnings += amount;
+            localStorage.setItem('earnings', totalEarnings); // Save earnings
+            updateEarningsDisplay();
+        }
+
+        function startCountdown(duration) {
+            const now = Date.now();
+            const newEndTime = now + duration * 1000;
+            localStorage.setItem('endTime', newEndTime); // Save end time
+            let countdownTimer = duration;
+
+            spinBtn.disabled = true;
+            const interval = setInterval(() => {
+                countdownTimer--;
+                const minutes = Math.floor(countdownTimer / 60);
+                const seconds = countdownTimer % 60;
+                timerElement.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if (countdownTimer <= 0) {
+                    clearInterval(interval);
+                    spinBtn.disabled = false;
+                    timerElement.textContent = "You can spin now!";
+                    localStorage.removeItem('endTime'); // Clear the end time
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html> 
